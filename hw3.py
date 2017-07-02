@@ -49,12 +49,12 @@ class Apriori(object):
 		# print(self.k - 2)
 		# print(len(self.itemsets[self.k - 2]))
 		while self.itemsets[self.k]:
-			print('k = ', self.k)
-			print('F_k-1 = ', self.itemsets[self.k])
+			# print('k = ', self.k)
+			# print('F_k-1 = ', self.itemsets[self.k])
 			# increment k to next level
 			self.k += 1		
 			ck = self.candidate()
-			print('C_k = ', ck)
+			# print('C_k = ', ck)
 			# for all itemsets in C_k
 			fk = [] # store tuples in F_k
 			for c in ck:
@@ -65,7 +65,7 @@ class Apriori(object):
 						count += 1
 				if count >= self.min_support:
 					fk.append((c, count))
-			print('F_k = ', fk)
+			# print('F_k = ', fk)
 			# append F_k to list of itemsets
 			self.itemsets.append(fk)	
 			# print(self.itemsets)
@@ -81,10 +81,10 @@ class Apriori(object):
 		ck = []
 		# make copy of F_k-1
 		itemset = copy.deepcopy(self.itemsets[self.k - 1])
-		print(itemset)
+		# print(itemset)
 		for k1, v1 in self.itemsets[self.k - 1]:
 			for k2, v2 in itemset:
-				print("k1 = ", k1, "k2 = ", k2)
+				# print("k1 = ", k1, "k2 = ", k2)
 				# convert sets k1, k2 to lists
 				l1 = list(k1)
 				l2 = list(k2)
@@ -94,10 +94,11 @@ class Apriori(object):
 				# if two sets are equal except last item, union/join them
 				if ll1 == ll2 and l1[-1] != l2[-1]:
 					c = k1.union(k2)
-					print('union!')
-					print(c)
-					print('has_infrequent_subset = ', self.has_infrequent_subset(c, self.itemsets[self.k - 1]))
+					# print('union!')
+					# print(c)
+					# print('has_infrequent_subset = ', self.has_infrequent_subset(c, self.itemsets[self.k - 1]))
 					if not self.has_infrequent_subset(c, self.itemsets[self.k - 1]):
+						# print("append")
 						ck.append(c)
 		# self.level += 1
 		return ck
@@ -105,13 +106,13 @@ class Apriori(object):
 	# check whether c has infrequent subsets in itemset
 	# c: candidate k-itemset; itemset: frequent (k-1)-itemsets
 	def has_infrequent_subset(self, c, itemset):
-		print("has_infrequent_subset!")
+		# print("has_infrequent_subset!")
 		# subsets is a list of subset tuples of F_k-1
 		L = [k for (k, v) in itemset]
-		print("L = ", L)
-		print("k = ", self.k)
+		# print("L = ", L)
+		# print("k = ", self.k)
 		subsets = list(itertools.combinations(c, self.k))
-		print('subsets of c: ', subsets)
+		# print('subsets of c: ', subsets)
 		for i in subsets:
 			if set(i) not in L:
 				return True
