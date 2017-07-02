@@ -63,7 +63,7 @@ class Apriori(object):
 				for i in self.db:
 					if c.issubset(set(i)):
 						count += 1
-				if count >= self.min_support:
+				if (count >= self.min_support) and ((c, count) not in fk):
 					fk.append((c, count))
 			# print('F_k = ', fk)
 			# append F_k to list of itemsets
@@ -130,10 +130,18 @@ class Apriori(object):
 		# print(self.itemsets[self.k - 1])
 
 	# print out the result in required format
-	# def print_output(self):
-	# 	for itemlist in self.itemsets:
-	# 		self.output_set.append(set(itemlist))
-	# 	print(self.outputset)	
+	def print_output(self):
+		for itemlist in self.itemsets:
+			if itemlist:
+				# print(itemlist)
+				for key, value in itemlist:
+					s = " ".join(list(key))
+					# print(s)
+					# print(s[1:])
+					# print(value, ' [', s, ']')
+					print(str(value) + ' [' + str(s) + ']')
+			# output = list(set(itemlist))
+			# print(output)
 
 
 
@@ -142,7 +150,7 @@ def main():
 	a = Apriori()
 	a.process_input()
 	print(a.apriori())
-	# a.print_output()
+	a.print_output()
 
 if __name__ == "__main__": 
 	main()
