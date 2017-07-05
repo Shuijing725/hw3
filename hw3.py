@@ -7,7 +7,7 @@ class Apriori(object):
 	def __init__(self):
 		self.db = [] # list of transaction item lists
 		self.min_support = 1 # default min_support is 1
-		self.itemsets = [] # list of tuples, where tuples are (itemset, support)
+		self.itemsets = [] # list of tuples, where tuples are (itemset, support), itemset is the set of frequent patterns of size k
 		self.k = 0  # index of itemset we are working with now ("actual k" = self.k + 1)
 		# self.output_set = []
 
@@ -22,25 +22,41 @@ class Apriori(object):
 
 		for i in range(1, len(message)):
 			self.db.append(message[i].rstrip().split())
-		# print(self.db)
+		
+		# print("database: ", self.db)
 
 	# generate 1-itemset
 	def one_itemset(self):
+		# temporary container for 1-itemset 
 		itemset = []
 		# for each transaction
 		for i in range(len(self.db)):
 			# for each item in one transaction
 			for j in range(len(self.db[i])):
-				itemset1 = [(k, v + 1) if (k == set(self.db[i][j])) else (k, v) for (k, v) in itemset]
-				if itemset1 == itemset:
-					itemset.append((set(self.db[i][j]), 1))
+				# print("examine elemnent ", self.db[i][j])
+				# find the current set of one-items in itemset
+				keys = [k for (k, v) in itemset] 
+				# print("Keys: ", keys)
+				# itemset1 = [(k, v + 1) if (k == set(self.db[i][j])) else (k, v) for (k, v) in itemset]
+				# make the 1-item an itemset with 1 element
+				s = set()
+				s.add(self.db[i][j])
+				# if itemset already has this item, update the itemset
+				if s in keys:
+					# print(self.db[i][j], "is in keys")
+					itemset = [(k, v + 1) if (k == s) else (k, v) for (k, v) in itemset]
+				# if itemset does not have this item yet, add a tuple (1-itemset, 1) to itemset
 				else:
-					itemset = copy.deepcopy(itemset1)
+					# print(self.db[i][j], "is not in keys")
+					itemset.append((s, 1))
+				# print("itemset: ", itemset)
+					# itemset = copy.deepcopy(itemset1)
 				# 	itemset[set(self.db[i][j])] += 1
 				# else:
 				# 	itemset[set(self.db[i][j])] = 1
 		self.itemsets.append(itemset)
 		self.prune()
+		# print("one itemset: ", self.itemsets)
 		# self.k += 1
 
 	def apriori(self):
