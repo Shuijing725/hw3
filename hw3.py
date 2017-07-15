@@ -15,15 +15,23 @@ class Apriori(object):
 
 	# read input from std and store self.db and self.min_support
 	def process_input(self):
-		message = sys.stdin.readlines()
-		# print('db_in: ', db_in)
-		
-		#first element of message is min_support
-		self.min_support = ord(message[0].rstrip()) - 48 # in unicode, 0 is 48
-		# print(min_support)
+		# a more elegant way of reading input:
+		self.min_support = int(input())
+		inp = "hello"
+		while inp != "":
+			inp = input()
+			self.db.append(inp.rstrip().split())
 
-		for i in range(1, len(message)):
-			self.db.append(message[i].rstrip().split())
+
+		# message = sys.stdin.readlines()
+		# # print('db_in: ', db_in)
+		
+		# #first element of message is min_support
+		# self.min_support = ord(message[0].rstrip()) - 48 # in unicode, 0 is 48
+		# # print(min_support)
+
+		# for i in range(1, len(message)):
+		# 	self.db.append(message[i].rstrip().split())
 		
 		# print("database: ", self.db)
 
@@ -86,7 +94,8 @@ class Apriori(object):
 			# print('F_k = ', fk)
 			# append F_k to list of itemsets
 			self.itemsets.append(fk)	
-			# print(self.itemsets)
+		for i in self.itemsets:
+			print(i)
 			
 		# return self.itemsets
 
@@ -213,21 +222,7 @@ class Apriori(object):
 				# print(s[1:])
 				# print(value, ' [', s, ']')
 				print(str(value) + ' [' + str(s) + ']')
-			# for itemlist in flat_list:
-			# 	temp_list = [(list(key), val) for key, val in itemlist]
-			# 	temp_list.sort(key = lambda x: x[0])
-			# 	print('199:', temp_list)
-			# 	temp_list.sort(key = lambda x: x[1], reverse = True)
-			# 	print('201:', temp_list)
-			# 	for key, value in temp_list:
-			# 		key.sort()
-			# 		# print('l = ', l)
-			# 		s = " ".join(key)
-			# 		# print(s)
-			# 		# print(s[1:])
-			# 		# print(value, ' [', s, ']')
-			# 		print(str(value) + ' [' + str(s) + ']')
-
+				
 		elif list_to_print == 2:
 			flat_list = []
 			# flatten all frequent patterns (self.itemsets)
