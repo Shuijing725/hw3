@@ -94,8 +94,8 @@ class Apriori(object):
 			# print('F_k = ', fk)
 			# append F_k to list of itemsets
 			self.itemsets.append(fk)	
-		for i in self.itemsets:
-			print(i)
+		# for i in self.itemsets:
+		# 	print(i)
 			
 		# return self.itemsets
 
@@ -108,7 +108,8 @@ class Apriori(object):
 		ck = []
 		# make copy of F_k-1
 		itemset = copy.deepcopy(self.itemsets[self.k - 1])
-		# print(itemset)
+		# print("itemset on level", self.k - 1, " is:", itemset)
+		# print("k = ", self.k)
 		for k1, v1 in self.itemsets[self.k - 1]:
 			for k2, v2 in itemset:
 				# print("k1 = ", k1, "k2 = ", k2)
@@ -121,11 +122,11 @@ class Apriori(object):
 				# if two sets are equal except last item, union/join them
 				if ll1 == ll2 and l1[-1] != l2[-1]:
 					c = k1.union(k2)
-					# print('union!')
-					# print(c)
+					# print('union result:', c, "len(c) = ", len(c))
+				
 					# print('has_infrequent_subset = ', self.has_infrequent_subset(c, self.itemsets[self.k - 1]))
-					if not self.has_infrequent_subset(c, self.itemsets[self.k - 1]):
-						# print("append")
+					if not self.has_infrequent_subset(c, self.itemsets[self.k - 1]) and len(c) == self.k + 1:
+						# print("append ", c)
 						ck.append(c)
 		# self.level += 1
 		return ck
